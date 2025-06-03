@@ -101,19 +101,24 @@ class Graph:
         for x, y in rounded_coords:
             matrix_list[-1 - y][x] = PROJECTILE
 
-        # Add y-axis tick and join rows
-        matrix = [y_axis_tick + "".join(line) for line in matrix_list]
+        matrix = ["".join(line) for line in matrix_list]
 
-        # Add x-axis at the bottom
-        matrix.append(" " + x_axis_tick * (x_max + 1))
+        matrix_axes = [y_axis_tick + row for row in matrix]
+        matrix_axes.append(" " + x_axis_tick * (len(matrix[0])))
 
-        # Join all lines into a single multiline string with leading and trailing newline
-        return "\n" + "\n".join(matrix) + "\n"
+        graph = "\n" + "\n".join(matrix_axes) + "\n"
+
+        return graph
+
+def projectile_helper(speed, height, angle):
+    ball = Projectile(speed, height, angle)
+    print(ball)  # Assuming __str__ or __repr__ prints projectile details
+    coordinates = ball.calculate_all_coordinates()
+    graph = Graph(coordinates)
+    print(graph.create_coordinates_table())  # Print coordinates table first
+    print(graph.create_trajectory())         # Then print the graph trajectory
 
 
-ball = Projectile(10, 3, 45)
-print(ball)
-coordinates = ball.calculate_all_coordinates()
-graph = Graph(coordinates)
-print(graph.create_trajectory())
-   
+# Example call with speed=10, height=3, angle=45
+projectile_helper(10, 3, 45)
+
